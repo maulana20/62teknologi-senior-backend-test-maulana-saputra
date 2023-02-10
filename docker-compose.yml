@@ -1,0 +1,77 @@
+version: '3.7'
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  data-volume:
+    driver: local
+
+services:
+  db:
+    image: mariadb:10.6
+    logging:
+      options:
+        max-size: "5m"
+        max-file: "1"
+    volumes:
+      - ./volumes/db:/var/lib/mysql
+    restart: unless-stopped
+    environment:
+      - MARIADB_ROOT_PASSWORD=root
+      - MARIADB_DATABASE=62teknologi
+      - MARIADB_USER=root
+      - MARIADB_PASSWORD=root
+      - MARIADB_INITDB_SKIP_TZINFO=GMT
+    networks:
+      - app-network
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: 62teknologi-senior-backend-test-maulana-saputra/backend:local
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "1"
+    volumes:
+      - ./backend:/var/www/html
+    restart: unless-stopped
+    depends_on:
+      - db
+    networks:
+      - app-network
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: 62teknologi-senior-backend-test-maulana-saputra/frontend:local
+    restart: unless-stopped
+    volumes:
+      - ./frontend/:/app
+      - /app/node_modules
+    depends_on:
+      - db
+      - backend
+    networks:
+      - app-network
+  proxy:
+    image: nginx:1.21.0-alpine
+    logging:
+      options:
+        max-size: "5m"
+        max-file: "1"
+    volumes:
+      - ./proxy/conf.d/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - 80:80
+    expose:
+      - 80
+    restart: unless-stopped
+    depends_on:
+      - db
+      - backend
+      - frontend
+    networks:
+      - app-network

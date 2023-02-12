@@ -19,7 +19,7 @@ use App\Http\Controllers\Api\BusinessController;
 Route::prefix('auth')->group(function () {
     Route::post('login', [LoginController::class, 'login']);
 });
-
+Route::get('/business/image/{path}', [BusinessController::class, 'getImage']);
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::resource('business', BusinessController::class, [])->except('store');
     Route::prefix('auth')->group(function () {

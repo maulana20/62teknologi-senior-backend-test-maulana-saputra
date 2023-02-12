@@ -40,9 +40,10 @@
           </form>
         </div>
         <div class="col-4">
+          <ImageCarousel v-if="images.length" :images="images" />
           <span class="label label-default" style="font-weight: bold">Reviews</span>
           <ul style="padding: 0; list-style-type: none;">
-            <li v-for="review in reviews">
+            <li v-for="review in reviews" v-bind-key="review.id">
               <div class="d-flex flex-nowrap">
                 <div class="p-2" style="font-size: 12px;">
                   {{ review.body }}
@@ -64,11 +65,13 @@
 import BusinessService from '../../services/business.service';
 import Rates from '../../components/Rates.vue';
 import ReviewRates from '../../components/ReviewRates.vue';
+import ImageCarousel from '../../components/ImageCarousel.vue';
 export default {
   name: 'BusinessDetail',
   components: {
     Rates,
-    ReviewRates
+    ReviewRates,
+    ImageCarousel
   },
   data() {
     return {
@@ -81,6 +84,7 @@ export default {
         limit: 0
       },
       rates: 0,
+      images: [],
       reviews: [],
       loading: false,
       message: ''
@@ -100,6 +104,7 @@ export default {
         this.business.limit = response.data.limit;
         
         this.rates = response.data.rates;
+        this.images = response.data.images;
         this.reviews = response.data.reviews;
       });
     },

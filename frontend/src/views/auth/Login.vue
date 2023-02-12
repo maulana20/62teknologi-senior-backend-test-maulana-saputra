@@ -42,7 +42,6 @@ export default {
   },
   computed: {
     loggedIn() {
-      console.log(this.$store.state.auth.loggedIn);
       return this.$store.state.auth.loggedIn;
     }
   },

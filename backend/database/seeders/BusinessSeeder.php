@@ -82,31 +82,31 @@ class BusinessSeeder extends Seeder
         return [
             [
                 "business_id" => 1,
-                "image"       => "public/business/business_1.png",
+                "image"       => "business/business_1.png",
             ],
             [
                 "business_id" => 1,
-                "image"       => "public/business/business_2.png",
+                "image"       => "business/business_2.png",
             ],
             [
                 "business_id" => 1,
-                "image"       => "public/business/business_3.png",
+                "image"       => "business/business_3.png",
             ],
             [
                 "business_id" => 2,
-                "image"       => "public/business/business_2.png",
+                "image"       => "business/business_2.png",
             ],
             [
                 "business_id" => 2,
-                "image"       => "public/business/business_3.png",
+                "image"       => "business/business_3.png",
             ],
             [
                 "business_id" => 3,
-                "image"       => "public/business/business_1.png",
+                "image"       => "business/business_1.png",
             ],
             [
                 "business_id" => 4,
-                "image"       => "public/business/business_3.png",
+                "image"       => "business/business_3.png",
             ],
         ];
     }

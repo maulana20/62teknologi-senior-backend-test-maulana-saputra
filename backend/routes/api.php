@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\Api\LoginController;
+use App\Http\Controllers\Api\BusinessController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,9 +21,7 @@ Route::prefix('auth')->group(function () {
 });
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
+    Route::resource('business', BusinessController::class, [])->except('store');
     Route::prefix('auth')->group(function () {
         Route::get('logout', [LoginController::class, 'logout']);
     });

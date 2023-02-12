@@ -12,6 +12,14 @@
           <router-link to="/business" class="nav-link">Business</router-link>
         </li>
       </div>
+      <div v-if="!loggedIn" class="navbar-nav ml-auto">
+        <li class="nav-item">
+        <li class="nav-item">
+          <router-link to="/login" class="nav-link">
+            <font-awesome-icon icon="sign-in-alt" /> Login
+          </router-link>
+        </li>
+      </div>
       <div v-if="loggedIn" class="navbar-nav ml-auto">
         <li class="nav-item">
           <a class="nav-link" href @click.prevent="logOut">
@@ -22,7 +30,7 @@
     </nav>
 
     <div class="container">
-      <router-view />
+      <router-view style="margin-top: 10px;"/>
     </div>
   </div>
 </template>

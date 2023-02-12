@@ -8,13 +8,26 @@ const router = new Router({
   mode: 'history',
   routes: [
     {
-      path: '/*',
-      redirect: { name: 'login' }
+      path: '/',
+      name: "home",
+      component: require("../views/Home.vue").default,
     },
     {
       path: "/dashboard",
       name: "dashboard",
-      component: require("../views/Home.vue").default,
+      component: require("../views/Dashboard.vue").default,
+      meta: { auth: true }
+    },
+    {
+      path: "/business",
+      name: "business",
+      component: require("../views/business/Index.vue").default,
+      meta: { auth: true }
+    },
+    {
+      path: "/business/:id",
+      name: "business/:id",
+      component: require("../views/business/Detail.vue").default,
       meta: { auth: true }
     },
     {
@@ -25,14 +38,15 @@ const router = new Router({
   ]
 });
 
+const token = localStorage.getItem('token');
 router.beforeEach((to, from, next) => {
-  const token = localStorage.getItem('token');
   if (to.matched.some(route => route.meta.auth) && !token) {
     next({ name: 'login' });
   } else if (to.path === '/login' && token) {
     next({ name: 'dashboard' });
+    return;
   } else {
-    next();
+    next({ name: to.params.pathMatch });
   }
 });
 

@@ -8,10 +8,10 @@
 
 <script>
 export default {
-  name: 'Home',
+  name: 'Dashboard',
   data() {
     return {
-      content: '62 Teknologi Fullstack Developer'
+      content: 'Selamat Datang di Dashboard'
     };
   }
 };

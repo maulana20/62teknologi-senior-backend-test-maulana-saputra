@@ -21,10 +21,11 @@
             </div>
             <div class="form-group">
               <label for="address">Address</label>
-              <textarea v-model="business.address" v-validate="'required'" type="text" class="form-control" name="address" rows="3">
-                {{ business.address }}
-              </textarea>
+              <textarea v-model="business.address" v-validate="'required'" type="text" class="form-control" name="address" rows="3" />
               <div v-if="errors.has('address')" class="alert alert-danger" role="alert">Address is required!</div>
+            </div>
+            <div class="form-group">
+              <GoogleMap :latitude="business.latitude" :longitude="business.longitude" v-if="business.latitude && business.longitude" />
             </div>
             <div class="form-group">
               <button class="btn btn-primary" :disabled="loading">
@@ -43,7 +44,7 @@
           <ImageCarousel v-if="images.length" :images="images" />
           <span class="label label-default" style="font-weight: bold">Reviews</span>
           <ul style="padding: 0; list-style-type: none;">
-            <li v-for="review in reviews" v-bind-key="review.id">
+            <li v-for="review in reviews" v-bind:key="review.id">
               <div class="d-flex flex-nowrap">
                 <div class="p-2" style="font-size: 12px;">
                   {{ review.body }}
@@ -66,12 +67,14 @@ import BusinessService from '../../services/business.service';
 import Rates from '../../components/Rates.vue';
 import ReviewRates from '../../components/ReviewRates.vue';
 import ImageCarousel from '../../components/ImageCarousel.vue';
+import GoogleMap from '../../components/GoogleMap.vue';
 export default {
   name: 'BusinessDetail',
   components: {
     Rates,
     ReviewRates,
-    ImageCarousel
+    ImageCarousel,
+    GoogleMap
   },
   data() {
     return {

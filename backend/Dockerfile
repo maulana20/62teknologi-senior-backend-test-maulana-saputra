@@ -23,6 +23,7 @@ CMD composer install \
   && php artisan migrate \
   && php artisan db:seed \
   && chmod -R 777 storage \
+  && php artisan locale:get \
   && php-fpm -D && nginx -g "daemon off;"
 
 EXPOSE 80

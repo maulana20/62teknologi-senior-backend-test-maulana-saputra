@@ -11,6 +11,16 @@ class BusinessService {
       return response.data;
     });
   }
+  update(id, data) {
+    return api.put('/business/' + id, data).then(response => {
+      return response.data;
+    });
+  }
+  locales() {
+    return api.get('/business/locales').then(response => {
+      return response.data;
+    });
+  }
 }
 
 export default new BusinessService();

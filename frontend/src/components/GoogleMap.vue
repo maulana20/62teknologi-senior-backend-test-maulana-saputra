@@ -34,7 +34,6 @@ export default
         lat: parseFloat(this.latitude),
         lng: parseFloat(this.longitude)
       }
-      console.log(this.center);
     }
   }
 }

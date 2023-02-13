@@ -45,7 +45,7 @@ class BusinessSeeder extends Seeder
             [
                 "name"      => "Cilandak Town Square",
                 "address"   => "Cilandak Bar., Kec. Cilandak, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta",
-                "locale"    => "id_ID",
+                "locale"    => "id-ID",
                 "latitude"  => "-6.291430231213968",
                 "longitude" => "106.79935688096405",
                 "limit"     => 3,
@@ -53,7 +53,7 @@ class BusinessSeeder extends Seeder
             [
                 "name"      => "Margo City",
                 "address"   => "Jl. Margonda Raya No.358, Kemiri Muka, Kecamatan Beji, Kota Depok, Jawa Barat 16423",
-                "locale"    => "id_ID",
+                "locale"    => "id-ID",
                 "latitude"  => "-6.373073695383154",
                 "longitude" => "106.83487460145467",
                 "limit"     => 4,
@@ -61,7 +61,7 @@ class BusinessSeeder extends Seeder
             [
                 "name"      => "AEON Mall Tanjung Barat",
                 "address"   => "Jl. Raya Tj. Barat No.163, RW.4, Tj. Bar., Kec. Jagakarsa, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12530",
-                "locale"    => "id_ID",
+                "locale"    => "id-ID",
                 "latitude"  => "-6.305635695431214",
                 "longitude" => "106.84042670940639",
                 "limit"     => 5,
@@ -69,7 +69,7 @@ class BusinessSeeder extends Seeder
             [
                 "name"      => "Pondok Indah Mall 1",
                 "address"   => "PQMM+XWV, Jalan Metro Pondok Indah Kav. IV, Pd. Pinang, Kec. Kby. Lama, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta",
-                "locale"    => "id_ID",
+                "locale"    => "id-ID",
                 "latitude"  => "-6.265073084021859",
                 "longitude" => "106.7849650591247",
                 "limit"     => 6,

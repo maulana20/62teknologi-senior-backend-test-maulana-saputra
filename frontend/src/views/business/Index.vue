@@ -43,7 +43,7 @@ export default
               data: "address"
             },
             {
-              data: "locale"
+              data: "locale_name"
             },
             {
               data: "limit"

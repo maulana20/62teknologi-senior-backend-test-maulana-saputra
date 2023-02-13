@@ -15,6 +15,9 @@
         <div class="col-8">
           <form name="form" @submit.prevent="handleSave">
             <div class="form-group">
+              <div v-if="message" class="alert alert-danger" role="alert">{{ message }}</div>
+            </div>
+            <div class="form-group">
               <label for="name">Name</label>
               <input v-model="business.name" v-validate="'required'" type="text" class="form-control" name="name" />
               <div v-if="errors.has('name')" class="alert alert-danger" role="alert">Name is required!</div>
@@ -23,6 +26,14 @@
               <label for="address">Address</label>
               <textarea v-model="business.address" v-validate="'required'" type="text" class="form-control" name="address" rows="3" />
               <div v-if="errors.has('address')" class="alert alert-danger" role="alert">Address is required!</div>
+            </div>
+            <div class="form-group">
+              <LocaleSelect :code="business.locale" v-if="business.locale" />
+            </div>
+            <div class="form-group">
+              <label for="limit">Limit</label>
+              <input v-model="business.limit" v-validate="'required'" type="text" class="form-control" name="limit" />
+              <div v-if="errors.has('limit')" class="alert alert-danger" role="alert">Limit is required!</div>
             </div>
             <div class="form-group">
               <GoogleMap :latitude="business.latitude" :longitude="business.longitude" v-if="business.latitude && business.longitude" />
@@ -34,9 +45,6 @@
               </button>
               &nbsp;
               <button class="btn btn-secondary" @click="getBack()">Back</button>
-            </div>
-            <div class="form-group">
-              <div v-if="message" class="alert alert-danger" role="alert">{{ message }}</div>
             </div>
           </form>
         </div>
@@ -68,13 +76,15 @@ import Rates from '../../components/Rates.vue';
 import ReviewRates from '../../components/ReviewRates.vue';
 import ImageCarousel from '../../components/ImageCarousel.vue';
 import GoogleMap from '../../components/GoogleMap.vue';
+import LocaleSelect from '../../components/LocaleSelect.vue';
 export default {
   name: 'BusinessDetail',
   components: {
     Rates,
     ReviewRates,
     ImageCarousel,
-    GoogleMap
+    GoogleMap,
+    LocaleSelect
   },
   data() {
     return {
@@ -112,6 +122,19 @@ export default {
       });
     },
     handleSave: function() {
+      this.loading = true;
+      this.$validator.validateAll().then(isValid => {
+        if (!isValid) {
+          this.loading = false;
+          return;
+        }
+        BusinessService.update(this.$route.params.id, this.business).then(response => {
+          window.location.href = '/business';
+        }, error => {
+          this.loading = false;
+          this.message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+        });
+      });
     },
     getBack: function() {
       window.location.href = '/business';

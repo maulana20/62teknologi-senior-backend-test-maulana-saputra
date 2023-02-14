@@ -21,8 +21,12 @@ export default
     }
   },
   mounted: function() {
-    this.locale = this.code;
     this.getLocales();
+  },
+  watch: {
+    code: function(code) {
+      this.locale = code;
+    }
   },
   methods: {
     getLocales: function() {

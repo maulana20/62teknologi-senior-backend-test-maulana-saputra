@@ -28,7 +28,7 @@
               <div v-if="errors.has('address')" class="alert alert-danger" role="alert">Address is required!</div>
             </div>
             <div class="form-group">
-              <LocaleSelect :code="business.locale" v-if="business.locale" />
+              <LocaleSelect :code="business.locale" />
             </div>
             <div class="form-group">
               <label for="limit">Limit</label>
@@ -36,8 +36,12 @@
               <div v-if="errors.has('limit')" class="alert alert-danger" role="alert">Limit is required!</div>
             </div>
             <div class="form-group">
-              <GoogleMap :latitude="business.latitude" :longitude="business.longitude" v-if="business.latitude && business.longitude" />
+              <GoogleMap :latitude="business.latitude" :longitude="business.longitude" />
             </div>
+            <div class="form-group">
+              <ImageUpload :list="images" />
+            </div>
+            <hr />
             <div class="form-group">
               <button class="btn btn-primary" :disabled="loading">
                 <span v-show="loading" class="spinner-border spinner-border-sm"></span>
@@ -77,6 +81,7 @@ import ReviewRates from '../../components/ReviewRates.vue';
 import ImageCarousel from '../../components/ImageCarousel.vue';
 import GoogleMap from '../../components/GoogleMap.vue';
 import LocaleSelect from '../../components/LocaleSelect.vue';
+import ImageUpload from '../../components/ImageUpload.vue';
 export default {
   name: 'BusinessDetail',
   components: {
@@ -84,7 +89,8 @@ export default {
     ReviewRates,
     ImageCarousel,
     GoogleMap,
-    LocaleSelect
+    LocaleSelect,
+    ImageUpload
   },
   data() {
     return {
@@ -128,7 +134,7 @@ export default {
           this.loading = false;
           return;
         }
-        BusinessService.update(this.$route.params.id, this.business).then(response => {
+        BusinessService.update(this.$route.params.id, this.business).then(() => {
           window.location.href = '/business';
         }, error => {
           this.loading = false;

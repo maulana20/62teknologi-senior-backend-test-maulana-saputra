@@ -4,7 +4,7 @@
       v-if="Object.keys(center).length"
       :center="center"
       :zoom="20"
-      style="width: 700px; height: 300px"
+      style="width: 100%; height: 300px"
     >
       <GmapMarker
         :position="center"
@@ -25,8 +25,10 @@ export default
       center: {}
     }
   },
-  mounted: function() {
-    this.setMaps();
+  watch: {
+    latitude: function() {
+      this.setMaps();
+    }
   },
   methods: {
     setMaps: function() {

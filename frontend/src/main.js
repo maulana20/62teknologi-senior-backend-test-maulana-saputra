@@ -8,10 +8,10 @@ import VeeValidate from 'vee-validate';
 import Vuex from 'vuex';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faHome, faUser, faUserPlus, faSignInAlt, faSignOutAlt, faStar, faStarHalf } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faUser, faUserPlus, faSignInAlt, faSignOutAlt, faStar, faStarHalf, faTimes } from '@fortawesome/free-solid-svg-icons';
 import * as VueGoogleMaps from 'vue2-google-maps';
 
-library.add(faHome, faUser, faUserPlus, faSignInAlt, faSignOutAlt, faStar, faStarHalf);
+library.add(faHome, faUser, faUserPlus, faSignInAlt, faSignOutAlt, faStar, faStarHalf, faTimes);
 
 Vue.config.productionTip = false;
 

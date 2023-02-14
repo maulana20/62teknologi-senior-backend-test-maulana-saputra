@@ -19,7 +19,7 @@ class LocaleGetCommand extends Command
      *
      * @var string
      */
-    protected $description = 'GET data local from URL';
+    protected $description = 'GET data locale from URL';
 
     /**
      * Create a new command instance.
@@ -44,6 +44,7 @@ class LocaleGetCommand extends Command
         }, json_decode($response, true)["language-names"]));
         $file = Storage::disk('public')->path('business/locales.json');
         file_put_contents($file, $locales);
+        $this->info("GET data locale from URL sucessfully.");
         return 0;
     }
 }

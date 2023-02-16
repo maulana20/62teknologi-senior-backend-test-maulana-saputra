@@ -8,6 +8,9 @@
     >
       <GmapMarker
         :position="center"
+        :clickable="true"
+        :draggable="true"
+        @dragend="dragEnd($event)"
       />
     </GmapMap>
   </div>
@@ -36,6 +39,12 @@ export default
         lat: parseFloat(this.latitude),
         lng: parseFloat(this.longitude)
       }
+    },
+    dragEnd: function(event) {
+      this.$emit('set-map', {
+        lat: event.latLng.lat(),
+        lng: event.latLng.lng()
+      });
     }
   }
 }

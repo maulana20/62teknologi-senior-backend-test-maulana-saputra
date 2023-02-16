@@ -31,7 +31,9 @@ class UpdateRequest extends FormRequest
                 'required',
                 new LocaleRule()
             ],
-            'limit' => 'required|integer'
+            'limit' => 'required|integer',
+            'latitude' => 'required|between:-90,90',
+            'longitude' => 'required|between:-180,180',
         ];
     }
 }

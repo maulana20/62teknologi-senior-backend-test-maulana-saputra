@@ -28,7 +28,7 @@
               <div v-if="errors.has('address')" class="alert alert-danger" role="alert">Address is required!</div>
             </div>
             <div class="form-group">
-              <LocaleSelect :code="business.locale" />
+              <LocaleSelect :code="business.locale" @set-locale="setLocale" />
             </div>
             <div class="form-group">
               <label for="limit">Limit</label>
@@ -36,7 +36,7 @@
               <div v-if="errors.has('limit')" class="alert alert-danger" role="alert">Limit is required!</div>
             </div>
             <div class="form-group">
-              <GoogleMap :latitude="business.latitude" :longitude="business.longitude" />
+              <GoogleMap :latitude="business.latitude" :longitude="business.longitude" @set-map="setMap" />
             </div>
             <div class="form-group">
               <ImageUpload :list="images" />
@@ -126,6 +126,13 @@ export default {
         this.images = response.data.images;
         this.reviews = response.data.reviews;
       });
+    },
+    setLocale: function(value) {
+     this.business.locale = value;
+    },
+    setMap: function(position) {
+     this.business.latitude = position.lat;
+     this.business.longitude = position.lng;
     },
     handleSave: function() {
       this.loading = true;

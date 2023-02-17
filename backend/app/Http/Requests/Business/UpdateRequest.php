@@ -43,7 +43,7 @@ class UpdateRequest extends FormRequest
         ];
     }
     
-    public function getBusiness()
+    public function getBusiness() : array
     {
         return [
             'name' => $this->name,
@@ -55,10 +55,10 @@ class UpdateRequest extends FormRequest
         ];
     }
     
-    public function getImages(Business $business)
+    public function getImages(Business $business) : array
     {
         $this->syncImages($business, $this->update_images);
-        if (!$this->insert_images) return null;
+        if (!$this->insert_images) return [];
         return array_map(function($image) use($business) {
             return [
                 'business_id' => $business->id,
@@ -67,7 +67,7 @@ class UpdateRequest extends FormRequest
         }, $this->insert_images);
     }
     
-    public function syncImages(Business $business, $maintainedImageIds)
+    public function syncImages(Business $business, $maintainedImageIds) : void
     {
         if ($maintainedImageIds) {
             $removedImages = Image::where('business_id', $business->id)->whereNotIn('id', $maintainedImageIds)->get();

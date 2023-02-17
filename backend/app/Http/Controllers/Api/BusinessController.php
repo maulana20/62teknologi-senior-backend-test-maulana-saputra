@@ -3,23 +3,20 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
 use App\Http\Requests\Business\UpdateRequest;
 use App\Models\Business;
-use App\Traits\ApiResponser;
+use App\Actions\Business\UpdateAction;
 
-class BusinessController extends Controller
+class BusinessController extends BaseController
 {
-    use ApiResponser;
-    
-    public function index(Request $request)
+    public function index(Request $request) : JsonResponse
     {
         $businesses = Business::all();
         return $this->sendResponse($businesses, 'Get List Business successfuly.');
     }
     
-    public function show(Business $business)
+    public function show(Business $business) : JsonResponse
     {
         $business->rates;
         $business->images;
@@ -27,31 +24,15 @@ class BusinessController extends Controller
         return $this->sendResponse($business, 'Get Detail Business successfuly.');
     }
     
-    public function update(UpdateRequest $request, Business $business)
+    public function update(UpdateRequest $request, Business $business, UpdateAction $action) : JsonResponse
     {
-        $business->update($request->getBusiness());
-        if ($images = $request->getImages($business)) {
-            $business->images()->createMany($images);
-        }
+        $business = $action->execute($request, $business);
         return $this->sendResponse($business, 'Updated Business successfuly.');
     }
     
-    public function destroy(Business $business)
+    public function destroy(Business $business) : JsonResponse
     {
         $business->delete();
         return $this->sendResponse([], 'Deleted Business successfuly.');
-    }
-    
-    public function getImage($path)
-    {
-        $path = "business/" . $path;
-        $image = Storage::disk('public')->get($path);
-        return response($image, 200)->header('Content-Type', Storage::disk('public')->getMimeType($path));
-    }
-    
-    public function getLocales()
-    {
-        $locales = json_decode(file_get_contents(Storage::disk('public')->path('business/locales.json')), true);
-        return $this->sendResponse($locales, 'Get Locales Business successfuly.');
     }
 }

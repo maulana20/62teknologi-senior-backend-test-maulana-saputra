@@ -45,7 +45,7 @@ export default {
   methods: {
     setExistImages: function() {
       this.existImages = this.list.map(data => {
-        data.image = window.location.origin + "/api/business/image/" + data.image.substring(data.image.lastIndexOf('/')+1);
+        data.image = window.location.origin + "/api/image/" + data.image;
         return data;
       });
     },

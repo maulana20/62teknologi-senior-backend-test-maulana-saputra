@@ -26,7 +26,7 @@ export default
     }
   },
   mounted: function() {
-    this.imgs = this.images.map((res) => window.location.origin + "/api/business/image/" + res.image.substring(res.image.lastIndexOf('/')+1));
+    this.imgs = this.images.map((res) => window.location.origin + "/api/image/" + res.image);
   }
 }
 </script>

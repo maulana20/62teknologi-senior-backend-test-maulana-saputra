@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\Api\LoginController;
 use App\Http\Controllers\Api\BusinessController;
+use App\Http\Controllers\Api\ImageController;
+use App\Http\Controllers\Api\LocaleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,12 +21,10 @@ use App\Http\Controllers\Api\BusinessController;
 Route::prefix('auth')->group(function () {
     Route::post('login', [LoginController::class, 'login']);
 });
-Route::prefix('business')->group(function () {
-    Route::get('image/{path}', [BusinessController::class, 'getImage']);
-    Route::get('locales', [BusinessController::class, 'getLocales']);
-});
+Route::get('locales', LocaleController::class);
+Route::get('image/{folder}/{file}', ImageController::class);
 Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::resource('business', BusinessController::class, [])->except('store');
+    Route::resource('business', BusinessController::class)->except('store');
     Route::prefix('auth')->group(function () {
         Route::get('logout', [LoginController::class, 'logout']);
     });

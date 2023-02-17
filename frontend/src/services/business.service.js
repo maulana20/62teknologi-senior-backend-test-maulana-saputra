@@ -26,7 +26,7 @@ class BusinessService {
     });
   }
   locales() {
-    return api.get('/business/locales').then(response => {
+    return api.get('/locales').then(response => {
       return response.data;
     });
   }

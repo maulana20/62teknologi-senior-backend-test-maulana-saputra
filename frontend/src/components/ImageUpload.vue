@@ -14,7 +14,7 @@
     </div>
     <div class="mb-3" v-for="(data, index) in images" v-bind:key="index">
       <div class="p-1 border d-inline-block">
-        <input class="p-1 border d-inline-block" type="file" name="images[]" accept="image/*" required>
+        <input class="p-1 border d-inline-block" type="file" name="insert_images[]" accept="image/*" required>
         <button type="button" class="btn btn-sm btn-nooutline btn-nooutline-main" @click="deleteImage(index)">
           <font-awesome-icon icon="times" />
         </button>

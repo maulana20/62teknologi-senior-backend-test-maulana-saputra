@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use App\Events\Business\BusinessDeletedEvent;
 
 class Business extends Model
 {
@@ -22,6 +23,10 @@ class Business extends Model
     protected $appends = [
         'rates',
         'locale_name'
+    ];
+    
+    protected $dispatchesEvents = [
+       'deleted' => BusinessDeletedEvent::class
     ];
     
     public function images()

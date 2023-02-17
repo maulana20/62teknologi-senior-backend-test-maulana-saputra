@@ -3,7 +3,7 @@
     <div class="card-header">
       <div class="d-flex flex-nowrap">
         <div class="p-2">
-          <b>{{ business.name }}</b>
+          <b>{{ name }}</b>
         </div>
         <div>
           <Rates :rates="rates" />
@@ -15,7 +15,7 @@
         <div class="col-8">
           <form name="form" @submit.prevent="handleSave">
             <div class="form-group">
-              <div v-if="message" class="alert alert-danger" role="alert">{{ message }}</div>
+              <Alert :errors="alert_errors" :success="alert_success"></Alert>
             </div>
             <div class="form-group">
               <label for="name">Name</label>
@@ -28,7 +28,7 @@
               <div v-if="errors.has('address')" class="alert alert-danger" role="alert">Address is required!</div>
             </div>
             <div class="form-group">
-              <LocaleSelect :code="business.locale" @set-locale="setLocale" />
+              <LocaleSelect :code="business.location" @set-locale="setLocale" />
             </div>
             <div class="form-group">
               <label for="limit">Limit</label>
@@ -82,6 +82,7 @@ import ImageCarousel from '../../components/ImageCarousel.vue';
 import GoogleMap from '../../components/GoogleMap.vue';
 import LocaleSelect from '../../components/LocaleSelect.vue';
 import ImageUpload from '../../components/ImageUpload.vue';
+import Alert from '../../components/Alert.vue';
 export default {
   name: 'BusinessDetail',
   components: {
@@ -90,7 +91,8 @@ export default {
     ImageCarousel,
     GoogleMap,
     LocaleSelect,
-    ImageUpload
+    ImageUpload,
+    Alert
   },
   data() {
     return {
@@ -102,11 +104,13 @@ export default {
         longitude: "",
         limit: 0
       },
+      name: "",
       rates: 0,
       images: [],
       reviews: [],
       loading: false,
-      message: ''
+      alert_success: "",
+      alert_errors: []
     };
   },
   mounted: function() {
@@ -117,18 +121,21 @@ export default {
       BusinessService.detail(this.$route.params.id).then(response => {
         this.business.name = response.data.name;
         this.business.address = response.data.address;
-        this.business.locale = response.data.locale;
+        this.business.location = response.data.locale;
         this.business.latitude = response.data.latitude;
         this.business.longitude = response.data.longitude;
         this.business.limit = response.data.limit;
+        this.business.update_images = [];
+        this.business.insert_images = [];
         
+        this.name = response.data.name;
         this.rates = response.data.rates;
         this.images = response.data.images;
         this.reviews = response.data.reviews;
       });
     },
     setLocale: function(value) {
-     this.business.locale = value;
+     this.business.location = value;
     },
     setMap: function(position) {
      this.business.latitude = position.lat;
@@ -141,11 +148,26 @@ export default {
           this.loading = false;
           return;
         }
-        BusinessService.update(this.$route.params.id, this.business).then(() => {
-          window.location.href = '/business';
+        
+        this.business.update_images = Object.entries(document.getElementsByName('update_images[]')).map(el => el[1].value);
+        this.business.insert_images = Object.entries(document.getElementsByName('insert_images[]')).map(el => el[1].files[0]);
+        
+        const data = new FormData();
+        data.append('_method', 'PUT');
+        Object.keys(this.business).map(key => {
+          if (typeof this.business[key] === 'object') {
+            Object.values(this.business[key]).map(el => data.append(key + "[]", el));
+          } else {
+            data.append(key, this.business[key]);
+          }
+        });
+        
+        BusinessService.update(this.$route.params.id, data).then(response => {
+          this.loading = false;
+          this.alert_success = response.message;
         }, error => {
           this.loading = false;
-          this.message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+          this.alert_errors = error.response.data.errors;
         });
       });
     },

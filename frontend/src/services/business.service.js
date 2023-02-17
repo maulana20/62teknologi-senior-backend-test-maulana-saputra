@@ -12,7 +12,11 @@ class BusinessService {
     });
   }
   update(id, data) {
-    return api.put('/business/' + id, data).then(response => {
+    return api.post('/business/' + id, data, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    }).then(response => {
       return response.data;
     });
   }

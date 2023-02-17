@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Rules;
+namespace App\Rules\Business;
 
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
@@ -27,7 +27,7 @@ class LocaleRule implements Rule
     public function passes($attribute, $value)
     {
         $names = json_decode(file_get_contents(Storage::disk('public')->path('business/locales.json')), true);
-        if (! array_key_exists($value, $names)) return false;
+        if (!array_key_exists($value, $names)) return false;
         return true;
     }
 

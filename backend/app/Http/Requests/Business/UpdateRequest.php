@@ -75,7 +75,7 @@ class UpdateRequest extends FormRequest
             $removedImages = Image::where('business_id', $business->id)->get();
         }
         foreach ($removedImages as $image) {
-            Storage::disk('public')->delete($image->url);
+            Storage::disk('public')->delete($image->image);
             $image->delete();
         }
     }

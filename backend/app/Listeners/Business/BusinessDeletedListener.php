@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Listeners\Tenant;
+namespace App\Listeners\Business;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Storage;
 use App\Events\Business\BusinessDeletedEvent;
 
-class TenantDeletedListener
+class BusinessDeletedListener
 {
     /**
      * Create the event listener.
@@ -27,12 +27,12 @@ class TenantDeletedListener
      */
     public function handle(BusinessDeletedEvent $event)
     {
-        foreach ($event->business->images as $images) {
-            Storage::disk('public')->delete($image->url);
+        foreach ($event->business->images as $image) {
+            Storage::disk('public')->delete($image->image);
             $image->delete();
         }
-        foreach ($event->business->reviews as $reviews) {
-            $reviews->delete();
+        foreach ($event->business->reviews as $review) {
+            $review->delete();
         }
     }
 }

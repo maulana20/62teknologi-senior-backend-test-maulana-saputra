@@ -1,12 +1,22 @@
 <template>
   <div class="card card-default">
     <div class="card-header">
-      <div class="d-flex flex-nowrap">
-        <div class="p-2">
-          <b>{{ name }}</b>
+      <div class="row">
+        <div class="col-6">
+          <div class="d-flex flex-nowrap">
+            <div class="p-2">
+              <b>{{ name }}</b>
+            </div>
+            <div>
+              <Rates :rates="rates" />
+            </div>
+          </div>
         </div>
-        <div>
-          <Rates :rates="rates" />
+        <div class="col-6">
+          <button class="btn btn-danger float-right" :disabled="loading_delete" @click="handleDelete">
+            <span v-show="loading_delete" class="spinner-border spinner-border-sm"></span>
+            <span>Delete</span>
+          </button>
         </div>
       </div>
     </div>
@@ -109,6 +119,7 @@ export default {
       images: [],
       reviews: [],
       loading: false,
+      loading_delete: false,
       alert_success: "",
       alert_errors: []
     };
@@ -170,6 +181,14 @@ export default {
           this.alert_errors = error.response.data.errors;
         });
       });
+    },
+    handleDelete: function() {
+      if (confirm("Are you sure delete " + this.name + " ?") == true) {
+        this.loading_delete = true;
+        BusinessService.delete(this.$route.params.id).then(() => {
+          window.location.href = '/business';
+        });
+      }
     },
     getBack: function() {
       window.location.href = '/business';

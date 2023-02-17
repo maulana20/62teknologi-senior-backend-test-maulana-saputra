@@ -36,7 +36,7 @@ class BusinessController extends Controller
         return $this->sendResponse($business, 'Updated Business successfuly.');
     }
     
-    public function delete(Business $business)
+    public function destroy(Business $business)
     {
         $business->delete();
         return $this->sendResponse([], 'Deleted Business successfuly.');

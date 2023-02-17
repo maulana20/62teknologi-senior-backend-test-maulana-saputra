@@ -11,6 +11,11 @@ class BusinessService {
       return response.data;
     });
   }
+  delete(id) {
+    return api.delete('/business/' + id).then(response => {
+      return response.data;
+    });
+  }
   update(id, data) {
     return api.post('/business/' + id, data, {
       headers: {

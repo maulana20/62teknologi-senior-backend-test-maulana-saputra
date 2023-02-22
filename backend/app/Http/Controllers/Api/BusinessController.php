@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\Business\UpdateRequest;
+use App\Http\Resources\BusinessResource;
 use App\Models\Business;
 use App\Actions\Business\UpdateAction;
 
@@ -12,15 +13,13 @@ class BusinessController extends BaseController
 {
     public function index(Request $request) : JsonResponse
     {
-        $businesses = Business::all();
+        $businesses = BusinessResource::collection(Business::all());
         return $this->sendResponse($businesses, 'Get List Business successfuly.');
     }
     
     public function show(Business $business) : JsonResponse
     {
-        $business->rates;
-        $business->images;
-        $business->reviews;
+        $business = new BusinessResource($business);
         return $this->sendResponse($business, 'Get Detail Business successfuly.');
     }
     
